@@ -8,18 +8,6 @@
   version = "v1.1.0"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/extrame/ole2"
-  packages = ["."]
-  revision = "d69429661ad7efb189d2ad8074c867265009d0a4"
-
-[[projects]]
-  name = "github.com/extrame/xls"
-  packages = ["."]
-  revision = "f02a04cbdd7aa643a55358e986ab58959ce2cc11"
-  version = "v0.0.1"
-
-[[projects]]
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
   revision = "629574ca2a5df945712d3079857300b5e4da0236"
@@ -92,6 +80,12 @@
   version = "v1.1.4"
 
 [[projects]]
+  name = "github.com/tealeg/xlsx"
+  packages = ["."]
+  revision = "8be35264fa75a1bbe954ce51eba04f273e2c59e5"
+  version = "v1.0.3"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
@@ -112,6 +106,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "21a322cc4f20d7c561f3f1991547200a3119f7510fa06a0960d32f4a2a5e09c1"
+  inputs-digest = "f991be2886bf65a4dc2f44825444ac695cd882946d6990663c4bf7eb084f10b1"
   solver-name = "gps-cdcl"
   solver-version = 1
