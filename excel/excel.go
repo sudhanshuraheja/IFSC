@@ -1,7 +1,10 @@
-package xls
+package excel
 
-import "fmt"
-import "github.com/extrame/xls"
+import (
+	"fmt"
+
+	"github.com/extrame/xls"
+)
 
 func Load() {
 	if xlFile, err := xls.Open("Table.xls", "utf-8"); err == nil {

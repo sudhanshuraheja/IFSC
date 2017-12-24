@@ -1,4 +1,4 @@
-package xls
+package excel
 
 import (
 	"testing"
@@ -7,5 +7,6 @@ import (
 )
 
 func Test_one(t *testing.T) {
+	Load()
 	assert.Equal(t, 1, 1)
 }

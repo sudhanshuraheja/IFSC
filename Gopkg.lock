@@ -8,6 +8,18 @@
   version = "v1.1.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/extrame/ole2"
+  packages = ["."]
+  revision = "d69429661ad7efb189d2ad8074c867265009d0a4"
+
+[[projects]]
+  name = "github.com/extrame/xls"
+  packages = ["."]
+  revision = "f02a04cbdd7aa643a55358e986ab58959ce2cc11"
+  version = "v0.0.1"
+
+[[projects]]
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
   revision = "629574ca2a5df945712d3079857300b5e4da0236"
@@ -74,14 +86,8 @@
   version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/stretchr/objx"
-  packages = ["."]
-  revision = "1a9d0bb9f541897e62256577b352fdbc1fb4fd94"
-
-[[projects]]
   name = "github.com/stretchr/testify"
-  packages = [".","assert","http","mock"]
+  packages = ["assert"]
   revision = "69483b4bd14f5845b5a1e55bca19e954e827f1d0"
   version = "v1.1.4"
 
@@ -106,6 +112,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "d512bf6b07dabd0c1109b6a5ed15ea08718e844fa76f7b0cdbc4c6c4d3faab1c"
+  inputs-digest = "21a322cc4f20d7c561f3f1991547200a3119f7510fa06a0960d32f4a2a5e09c1"
   solver-name = "gps-cdcl"
   solver-version = 1
