@@ -1,5 +1,5 @@
 .PHONY: all
-all: build-deps build fmt vet lint test
+all: build test
 
 ALL_PACKAGES=$(go list ./... | grep -v "vendor")
 UNIT_TEST_PACKAGES=$(go list ./... | grep -v "vendor" | grep -v "featuretest")
