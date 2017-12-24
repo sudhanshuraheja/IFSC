@@ -1,6 +1,6 @@
 package main
 
-import "github.com/sudhanshuraheja/IFSC/config"
+import "github.com/sudhanshuraheja/ifsc/config"
 
 func main() {
 	config.Load()

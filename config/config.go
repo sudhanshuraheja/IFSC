@@ -21,7 +21,7 @@ func Load() {
 	viper.AddConfigPath(".")
 	viper.SetConfigType("toml")
 
-	viper.SetDefault("application.name", "IFSC")
+	viper.SetDefault("application.name", "ifsc")
 
 	viper.ReadInConfig()
 
