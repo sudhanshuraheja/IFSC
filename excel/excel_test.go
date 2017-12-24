@@ -7,6 +7,6 @@ import (
 )
 
 func Test_one(t *testing.T) {
-	Load()
-	assert.Equal(t, 1, 1)
+	allBranches := Load("../data/sample.xlsx")
+	assert.Equal(t, allBranches.count, 139491)
 }
