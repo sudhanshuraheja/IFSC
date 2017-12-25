@@ -38,6 +38,12 @@
   revision = "23c074d0eceb2b8a5bfdbb271ab780cde70f05a8"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/jeffbmartinez/delay"
+  packages = ["."]
+  revision = "e1b689d78b33aa556e404357cee5abdb0307afb1"
+
+[[projects]]
   name = "github.com/magiconair/properties"
   packages = ["."]
   revision = "d419a98cdbed11a922bf76f257b7c4be79b50e73"
@@ -54,6 +60,12 @@
   packages = ["."]
   revision = "16398bac157da96aa88f98a2df640c7f32af1da2"
   version = "v1.0.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/phyber/negroni-gzip"
+  packages = ["gzip"]
+  revision = "8118ae63850fee22b2fe43cea81d3bc149774503"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -142,6 +154,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "936cc4eb82b563f9118a1043c3f9744f14bcf79281b81c1ac1c5950dcf980042"
+  inputs-digest = "cac4d26f5d80bf82b684193c7bf9187c210af352de58bf7c76552da52495c5de"
   solver-name = "gps-cdcl"
   solver-version = 1
