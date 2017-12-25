@@ -13,15 +13,15 @@ type Branches struct {
 
 // Branch : list of details of a bank branch
 type Branch struct {
-	Bank     string
-	Ifsc     string
-	Micr     string
-	Branch   string
-	Address  string
-	Contact  string
-	City     string
-	District string
-	State    string
+	Bank     string `json:"bank"`
+	Ifsc     string `json:"ifsc"`
+	Micr     string `json:"micr"`
+	Branch   string `json:"branch"`
+	Address  string `json:"address"`
+	Contact  string `json:"contact"`
+	City     string `json:"city"`
+	District string `json:"district"`
+	State    string `json:"state"`
 }
 
 func (b *Branch) populate(row *xlsx.Row) {
