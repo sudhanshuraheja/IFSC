@@ -9,7 +9,9 @@ import (
 
 // Config object
 type Config struct {
-	name string
+	name        string
+	mapsEnabled bool
+	mapsKey     string
 }
 
 var config *Config
@@ -22,6 +24,7 @@ func Load() {
 	viper.SetConfigType("toml")
 
 	viper.SetDefault("application.name", "ifsc")
+	viper.SetDefault("maps.enabled", false)
 
 	viper.ReadInConfig()
 
@@ -37,7 +40,9 @@ func Load() {
 
 func readLatestConfig() {
 	config = &Config{
-		name: viper.GetString("application.name"),
+		name:        viper.GetString("application.name"),
+		mapsEnabled: viper.GetBool("maps.enabled"),
+		mapsKey:     viper.GetString("maps.key"),
 	}
 
 }
@@ -50,4 +55,14 @@ func Application() *Config {
 // Name : Exporting Name
 func Name() string {
 	return config.name
+}
+
+// MapsEnabled : Lookup to google maps enabled?
+func MapsEnabled() bool {
+	return config.mapsEnabled
+}
+
+// MapsKey : Google Maps key
+func MapsKey() string {
+	return config.mapsKey
 }

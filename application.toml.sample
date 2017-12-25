@@ -1,2 +1,6 @@
 [application]
 name = "ifsc"
+
+[maps]
+enabled = false
+key = "google-maps-api-key"
