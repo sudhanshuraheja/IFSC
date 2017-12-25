@@ -1,8 +1,7 @@
 package excel
 
 import (
-	"fmt"
-
+	"github.com/sudhanshuraheja/ifsc/logger"
 	"github.com/tealeg/xlsx"
 )
 
@@ -47,7 +46,7 @@ func (b *Branch) populate(row *xlsx.Row) {
 		case 8:
 			b.state = cell.String()
 		default:
-			fmt.Println("Mismatcing colums found")
+			logger.Error("Mismatcing colums found")
 		}
 	}
 }
@@ -58,7 +57,7 @@ func Load(file string) Branches {
 
 	workBook, err := xlsx.OpenFile(file)
 	if err != nil {
-		fmt.Println("There was an error in opening the file:", err)
+		logger.Debug(err.Error())
 		return allBranches
 	}
 
