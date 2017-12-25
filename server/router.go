@@ -9,8 +9,16 @@ import (
 	"github.com/sudhanshuraheja/ifsc/logger"
 )
 
+type cache struct {
+	inline map[string]string
+}
+
+var cached cache
+
 // Router : route requests to handlers
 func Router() http.Handler {
+	cached.inline = make(map[string]string)
+
 	router := mux.NewRouter()
 	router.HandleFunc("/ping", pingHandler).Methods("GET")
 	router.HandleFunc("/search/{query}", searchHandler).Methods("GET")
@@ -30,12 +38,16 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
-	search := datastore.Search(query)
+	if cachedData, ok := cached.inline[query]; ok {
+		w.Write([]byte(cachedData))
+	} else {
+		search := datastore.Search(query)
+		data, err := json.Marshal(search)
+		if err != nil {
+			logger.Error(err)
+		}
 
-	data, err := json.Marshal(search)
-	if err != nil {
-		logger.Error(err)
+		cached.inline[query] = string(data)
+		w.Write([]byte(data))
 	}
-
-	w.Write([]byte(data))
 }
