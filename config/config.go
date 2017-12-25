@@ -11,6 +11,7 @@ import (
 type Config struct {
 	name        string
 	version     string
+	logLevel    string
 	mapsEnabled bool
 	mapsKey     string
 }
@@ -26,6 +27,7 @@ func Load() {
 
 	viper.SetDefault("application.name", "ifsc")
 	viper.SetDefault("application.version", "NotDefined")
+	viper.SetDefault("application.logLevel", "debug")
 	viper.SetDefault("maps.enabled", false)
 
 	viper.ReadInConfig()
@@ -44,6 +46,7 @@ func readLatestConfig() {
 	config = &Config{
 		name:        viper.GetString("application.name"),
 		version:     viper.GetString("application.version"),
+		logLevel:    viper.GetString("application.logLevel"),
 		mapsEnabled: viper.GetBool("maps.enabled"),
 		mapsKey:     viper.GetString("maps.key"),
 	}
@@ -63,6 +66,11 @@ func Name() string {
 // Version : Export application version
 func Version() string {
 	return config.version
+}
+
+// LogLevel : Export the log level
+func LogLevel() string {
+	return config.logLevel
 }
 
 // MapsEnabled : Lookup to google maps enabled?

@@ -36,6 +36,8 @@ lint:
 
 build: update fmt vet lint compile
 
+run: fmt vet lint install
+
 install:
 	go install $(ALL_PACKAGES)
 

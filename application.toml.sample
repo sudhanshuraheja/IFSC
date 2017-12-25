@@ -1,6 +1,7 @@
 [application]
 name = "ifsc"
 version = "0.0.1"
+logLevel = "debug"
 
 [maps]
 enabled = false
