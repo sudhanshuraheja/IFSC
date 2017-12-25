@@ -20,6 +20,18 @@
   version = "v1.4.2"
 
 [[projects]]
+  name = "github.com/gorilla/context"
+  packages = ["."]
+  revision = "1ea25387ff6f684839d82767c1733ff4d4d15d0a"
+  version = "v1.1"
+
+[[projects]]
+  name = "github.com/gorilla/mux"
+  packages = ["."]
+  revision = "7f08801859139f86dfafd1c296e2cba9a80d292e"
+  version = "v1.6.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/hashicorp/hcl"
   packages = [".","hcl/ast","hcl/parser","hcl/scanner","hcl/strconv","hcl/token","json/parser","json/scanner","json/token"]
@@ -36,12 +48,6 @@
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
   revision = "06020f85339e21b2478f756a78e295255ffa4d6a"
-
-[[projects]]
-  name = "github.com/newrelic/go-agent"
-  packages = [".","internal","internal/cat","internal/jsonx","internal/logger","internal/sysinfo","internal/utilization"]
-  revision = "f5bce3387232559bcbe6a5f8227c4bf508dac1ba"
-  version = "v1.11.0"
 
 [[projects]]
   name = "github.com/pelletier/go-toml"
@@ -104,6 +110,12 @@
   version = "v1.20.0"
 
 [[projects]]
+  name = "github.com/urfave/negroni"
+  packages = ["."]
+  revision = "5dbbc83f748fc3ad38585842b0aedab546d0ea1e"
+  version = "v0.3.0"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
@@ -127,15 +139,9 @@
   packages = ["."]
   revision = "287cf08546ab5e7e37d55a84f7ed3fd1db036de5"
 
-[[projects]]
-  branch = "master"
-  name = "source.golabs.io/core/otp-svc"
-  packages = ["config"]
-  revision = "94d7b96c3a88bc1a8fd528a359e6c763cc7d7293"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ec2be8f070d16cd5f53394b52978dfa2021ec8b690cab7fd34041fe7be2ada50"
+  inputs-digest = "936cc4eb82b563f9118a1043c3f9744f14bcf79281b81c1ac1c5950dcf980042"
   solver-name = "gps-cdcl"
   solver-version = 1

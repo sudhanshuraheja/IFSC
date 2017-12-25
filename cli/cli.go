@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/sudhanshuraheja/ifsc/config"
+	"github.com/sudhanshuraheja/ifsc/server"
 	"github.com/urfave/cli"
 )
 
@@ -21,6 +22,7 @@ func Start() {
 			Usage: "start the service",
 			Action: func(c *cli.Context) error {
 				fmt.Println("Start the service")
+				server.StartAPIServer()
 				return nil
 			},
 		},
