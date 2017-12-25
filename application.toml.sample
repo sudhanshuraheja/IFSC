@@ -1,5 +1,6 @@
 [application]
 name = "ifsc"
+version = "0.0.1"
 
 [maps]
 enabled = false
