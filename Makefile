@@ -63,4 +63,6 @@ copy-config:
 	cp application.toml.sample application.toml
 
 copy-config-ci:
-	cp application.toml.ci application.toml
+	cp application.toml.sample application.toml.ci
+
+copy-configs: copy-config copy-config-ci

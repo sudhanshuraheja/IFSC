@@ -9,11 +9,15 @@ import (
 
 // Config object
 type Config struct {
-	name        string
-	version     string
-	logLevel    string
-	mapsEnabled bool
-	mapsKey     string
+	name                   string
+	version                string
+	logLevel               string
+	port                   string
+	enableStaticFileServer bool
+	enableGzipCompression  bool
+	enableDelayMiddleware  bool
+	mapsEnabled            bool
+	mapsKey                string
 }
 
 var config *Config
@@ -28,6 +32,10 @@ func Load() {
 	viper.SetDefault("application.name", "ifsc")
 	viper.SetDefault("application.version", "NotDefined")
 	viper.SetDefault("application.logLevel", "debug")
+	viper.SetDefault("server.port", "4000")
+	viper.SetDefault("server.enableStaticFileServer", false)
+	viper.SetDefault("server.enableGzipCompression", true)
+	viper.SetDefault("server.enableDelayMiddleware", false)
 	viper.SetDefault("maps.enabled", false)
 
 	viper.ReadInConfig()
@@ -39,16 +47,19 @@ func Load() {
 	})
 
 	readLatestConfig()
-
 }
 
 func readLatestConfig() {
 	config = &Config{
-		name:        viper.GetString("application.name"),
-		version:     viper.GetString("application.version"),
-		logLevel:    viper.GetString("application.logLevel"),
-		mapsEnabled: viper.GetBool("maps.enabled"),
-		mapsKey:     viper.GetString("maps.key"),
+		name:     viper.GetString("application.name"),
+		version:  viper.GetString("application.version"),
+		logLevel: viper.GetString("application.logLevel"),
+		port:     viper.GetString("server.port"),
+		enableStaticFileServer: viper.GetBool("server.enableStaticFileServer"),
+		enableGzipCompression:  viper.GetBool("server.enableGzipCompression"),
+		enableDelayMiddleware:  viper.GetBool("server.enableDelayMiddleware"),
+		mapsEnabled:            viper.GetBool("maps.enabled"),
+		mapsKey:                viper.GetString("maps.key"),
 	}
 
 }
@@ -71,6 +82,26 @@ func Version() string {
 // LogLevel : Export the log level
 func LogLevel() string {
 	return config.logLevel
+}
+
+// Port : Export the port
+func Port() string {
+	return config.port
+}
+
+// EnableStaticFileServer : Export if we are enabling the static file server
+func EnableStaticFileServer() bool {
+	return config.enableStaticFileServer
+}
+
+// EnableGzipCompression : Export if we want to enable Gzip compression
+func EnableGzipCompression() bool {
+	return config.enableGzipCompression
+}
+
+// EnableDelayMiddleware : Export if we want to enable delay middleware
+func EnableDelayMiddleware() bool {
+	return config.enableDelayMiddleware
 }
 
 // MapsEnabled : Lookup to google maps enabled?

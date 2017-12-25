@@ -3,6 +3,12 @@ name = "ifsc"
 version = "0.0.1"
 logLevel = "debug"
 
+[server]
+port = "3000"
+enableStaticFileServer = false
+enableGzipCompression = true
+enableDelayMiddleware = false
+
 [maps]
 enabled = false
 key = "google-maps-api-key"
