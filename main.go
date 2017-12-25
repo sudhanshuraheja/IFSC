@@ -10,6 +10,6 @@ import (
 func main() {
 	config.Load()
 	logger.Setup()
-	datastore.Init()
+	datastore.Init("data/sample.xlsx")
 	cli.Start()
 }
