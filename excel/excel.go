@@ -9,10 +9,11 @@ import (
 // Branches : Array and Count of all branches that we could find in the excel
 type Branches struct {
 	count int
-	list  []branch
+	list  []Branch
 }
 
-type branch struct {
+// Branch : list of details of a bank branch
+type Branch struct {
 	bank     string
 	ifsc     string
 	micr     string
@@ -22,6 +23,33 @@ type branch struct {
 	city     string
 	district string
 	state    string
+}
+
+func (b *Branch) populate(row *xlsx.Row) {
+	for index, cell := range row.Cells {
+		switch index {
+		case 0:
+			b.bank = cell.String()
+		case 1:
+			b.ifsc = cell.String()
+		case 2:
+			b.micr = cell.String()
+		case 3:
+			b.branch = cell.String()
+		case 4:
+			b.address = cell.String()
+		case 5:
+			b.contact = cell.String()
+		case 6:
+			b.city = cell.String()
+		case 7:
+			b.district = cell.String()
+		case 8:
+			b.state = cell.String()
+		default:
+			fmt.Println("Mismatcing colums found")
+		}
+	}
 }
 
 // Load : Try reading from the excel
@@ -36,40 +64,12 @@ func Load(file string) Branches {
 
 	for _, sheet := range workBook.Sheets {
 		for _, row := range sheet.Rows {
-			sheetRow := populateCell(row)
+			sheetRow := Branch{}
+			sheetRow.populate(row)
 			allBranches.list = append(allBranches.list, sheetRow)
 			allBranches.count++
 		}
 	}
 
 	return allBranches
-}
-
-func populateCell(row *xlsx.Row) branch {
-	sheetRow := branch{}
-	for index, cell := range row.Cells {
-		switch index {
-		case 0:
-			sheetRow.bank = cell.String()
-		case 1:
-			sheetRow.ifsc = cell.String()
-		case 2:
-			sheetRow.micr = cell.String()
-		case 3:
-			sheetRow.branch = cell.String()
-		case 4:
-			sheetRow.address = cell.String()
-		case 5:
-			sheetRow.contact = cell.String()
-		case 6:
-			sheetRow.city = cell.String()
-		case 7:
-			sheetRow.district = cell.String()
-		case 8:
-			sheetRow.state = cell.String()
-		default:
-			fmt.Println("Mismatcing colums found")
-		}
-	}
-	return sheetRow
 }
