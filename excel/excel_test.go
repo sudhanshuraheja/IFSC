@@ -13,6 +13,6 @@ func Test_one(t *testing.T) {
 	logger.Setup()
 
 	allBranches := Load("../data/sample.xlsx")
-	assert.Equal(t, allBranches.count, 139491)
-	assert.NotEmpty(t, allBranches.list[139490].bank)
+	assert.Equal(t, allBranches.Count, 139491)
+	assert.NotEmpty(t, allBranches.List[139490].Bank)
 }
