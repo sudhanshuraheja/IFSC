@@ -8,6 +8,6 @@ import (
 
 func main() {
 	config.Load()
-	cli.Start()
 	logger.Setup()
+	cli.Start()
 }
