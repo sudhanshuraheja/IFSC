@@ -22,7 +22,7 @@ func Init(dataFile string) {
 // Search : search the datastore
 func Search(query string) []excel.Branch {
 	results := []excel.Branch{}
-	maxResults := 10
+	maxResults := 5
 
 	if query == "" {
 		return results
