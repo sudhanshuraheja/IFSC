@@ -26,13 +26,11 @@ func pingHandler(w http.ResponseWriter, r *http.Request) {
 func searchHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	query := vars["query"]
-	logger.Infoln("Query", query)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
 	search := datastore.Search(query)
-	logger.Infoln(search)
 
 	data, err := json.Marshal(search)
 	if err != nil {
