@@ -1,6 +1,8 @@
 package excel
 
 import (
+	"strings"
+
 	"github.com/sudhanshuraheja/ifsc/logger"
 	"github.com/tealeg/xlsx"
 )
@@ -18,33 +20,34 @@ type Branch struct {
 	Micr     string `json:"micr"`
 	Branch   string `json:"branch"`
 	Address  string `json:"address"`
-	Contact  string `json:"contact"`
 	City     string `json:"city"`
 	District string `json:"district"`
 	State    string `json:"state"`
+	Contact  string `json:"contact"`
 }
 
 func (b *Branch) populate(row *xlsx.Row) {
 	for index, cell := range row.Cells {
+		textEntry := formatString(cell.String())
 		switch index {
 		case 0:
-			b.Bank = cell.String()
+			b.Bank = textEntry
 		case 1:
-			b.Ifsc = cell.String()
+			b.Ifsc = textEntry
 		case 2:
-			b.Micr = cell.String()
+			b.Micr = textEntry
 		case 3:
-			b.Branch = cell.String()
+			b.Branch = textEntry
 		case 4:
-			b.Address = cell.String()
+			b.Address = textEntry
 		case 5:
-			b.Contact = cell.String()
+			b.Contact = textEntry
 		case 6:
-			b.City = cell.String()
+			b.City = textEntry
 		case 7:
-			b.District = cell.String()
+			b.District = textEntry
 		case 8:
-			b.State = cell.String()
+			b.State = textEntry
 		default:
 			logger.Error("Mismatcing colums found")
 		}
@@ -71,4 +74,17 @@ func Load(file string) Branches {
 	}
 
 	return allBranches
+}
+
+func formatString(text string) string {
+	textEntry := strings.ToLower(text)
+
+	switch textEntry {
+	case "na":
+		textEntry = "NA"
+	default:
+		textEntry = strings.Title(textEntry)
+	}
+
+	return textEntry
 }
