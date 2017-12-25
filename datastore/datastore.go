@@ -1,7 +1,6 @@
 package datastore
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/sudhanshuraheja/ifsc/excel"
@@ -33,8 +32,7 @@ func Search(query string) []excel.Branch {
 		if len(results) >= maxResults {
 			break
 		}
-		mergedSting := fmt.Sprintf("%s %s %s %s %s %s %s %s %s", bank.Branch, bank.Ifsc, bank.Micr, bank.Branch, bank.Address, bank.Contact, bank.City, bank.District, bank.State)
-		if strings.Contains(strings.ToLower(mergedSting), strings.ToLower(query)) {
+		if strings.Contains(strings.ToLower(bank.FullText), strings.ToLower(query)) {
 			results = append(results, bank)
 		}
 	}
