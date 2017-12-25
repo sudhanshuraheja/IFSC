@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/sudhanshuraheja/ifsc/config"
@@ -21,7 +20,6 @@ func Start() {
 			Name:  "start",
 			Usage: "start the service",
 			Action: func(c *cli.Context) error {
-				fmt.Println("Start the service")
 				server.StartAPIServer()
 				return nil
 			},
@@ -30,7 +28,6 @@ func Start() {
 			Name:  "stop",
 			Usage: "stop the service",
 			Action: func(c *cli.Context) error {
-				fmt.Println("Stop the service")
 				return nil
 			},
 		},
