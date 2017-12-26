@@ -16,6 +16,7 @@ type Config struct {
 	enableStaticFileServer bool
 	enableGzipCompression  bool
 	enableDelayMiddleware  bool
+	database               DatabaseConfig
 	mapsEnabled            bool
 	mapsKey                string
 }
@@ -58,6 +59,7 @@ func readLatestConfig() {
 		enableStaticFileServer: viper.GetBool("server.enableStaticFileServer"),
 		enableGzipCompression:  viper.GetBool("server.enableGzipCompression"),
 		enableDelayMiddleware:  viper.GetBool("server.enableDelayMiddleware"),
+		database:               newDatabaseConfig(),
 		mapsEnabled:            viper.GetBool("maps.enabled"),
 		mapsKey:                viper.GetString("maps.key"),
 	}
@@ -102,6 +104,11 @@ func EnableGzipCompression() bool {
 // EnableDelayMiddleware : Export if we want to enable delay middleware
 func EnableDelayMiddleware() bool {
 	return config.enableDelayMiddleware
+}
+
+// Database : export the database configuration
+func Database() DatabaseConfig {
+	return config.database
 }
 
 // MapsEnabled : Lookup to google maps enabled?

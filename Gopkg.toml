@@ -60,3 +60,11 @@
 [[constraint]]
   branch = "master"
   name = "github.com/jeffbmartinez/delay"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/jmoiron/sqlx"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/lib/pq"

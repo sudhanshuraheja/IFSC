@@ -9,6 +9,14 @@ enableStaticFileServer = false
 enableGzipCompression = true
 enableDelayMiddleware = false
 
+[database]
+name = "db_name"
+user = "db_user"
+pass = "db_pass"
+host = "0.0.0.0"
+port = 8888
+maxPoolSize = 10
+
 [maps]
 enabled = false
 key = "google-maps-api-key"
