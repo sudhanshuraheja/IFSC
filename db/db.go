@@ -6,7 +6,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq" // postgres driver
-	"github.com/sudhanshuraheja/IFSC/config"
+	"github.com/sudhanshuraheja/ifsc/config"
 )
 
 const (
