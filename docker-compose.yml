@@ -8,8 +8,16 @@ services:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=docker
       - PGDATA=/pgdata
+  redis:
+    image: redis:4.0.6-alpine
+    ports:
+      - "6379:6379"
   app:
-    build: .
+    build:
+      context: .
+      args:
+        app_env: ${APP_ENV}
+    image: ifsc:latest
     ports:
       - "3000:3000"
     links:
