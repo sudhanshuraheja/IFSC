@@ -22,6 +22,11 @@ compile:
 	mkdir -p out/
 	go build -o $(APP_EXECUTABLE)
 
+restart:
+	mkdir -p out/
+	go install $(ALL_PACKAGES)
+	ifsc start
+
 fmt:
 	go fmt $(ALL_PACKAGES)
 
