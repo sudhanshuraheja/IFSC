@@ -21,7 +21,7 @@ var db *sqlx.DB
 func Init() {
 	var err error
 
-	db, err := sqlx.Open("postgres", config.Database().ConnectionString())
+	db, err = sqlx.Open("postgres", config.Database().ConnectionString())
 	if err != nil {
 		log.Fatalf("Could not connect to database: %s", err)
 	} else {
@@ -35,10 +35,12 @@ func Init() {
 	db.SetMaxIdleConns(config.Database().MaxPoolSize())
 	db.SetMaxOpenConns(config.Database().MaxPoolSize())
 	db.SetConnMaxLifetime(connMaxLifetime)
+	logger.Infoln("DB.Init() has been successfully done")
 }
 
 // Close : close the db connection
 func Close() error {
+	logger.Infoln("DB.Close() called, closing the connection")
 	return db.Close()
 }
 
