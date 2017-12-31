@@ -71,3 +71,7 @@ copy-config-ci:
 	cp application.toml.sample application.toml.ci
 
 copy-configs: copy-config copy-config-ci
+
+build-update-banks:
+	go install
+	ifsc updateBanks
