@@ -101,6 +101,21 @@ func Warnln(args ...interface{}) {
 	logger.Warnln(args...)
 }
 
+// Fatal : log a warning
+func Fatal(args ...interface{}) {
+	logger.Fatal(args...)
+}
+
+// Fatalf : log a formatted warning
+func Fatalf(format string, args ...interface{}) {
+	logger.Fatalf(format, args...)
+}
+
+// Fatalln : log a warning with a new line
+func Fatalln(args ...interface{}) {
+	logger.Fatalln(args...)
+}
+
 // WithField : log with one field
 func WithField(key string, value interface{}) *logrus.Entry {
 	return logger.WithField(key, value)
