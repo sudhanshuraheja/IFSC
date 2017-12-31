@@ -9,10 +9,13 @@ enableStaticFileServer = false
 enableGzipCompression = true
 enableDelayMiddleware = false
 
+[excel]
+latestData = "file://./db/sample.xlsx"
+
 [database]
 name = "ifsc"
 user = "ifsc"
-pass = "ifsc_postgres"
+password = "ifsc_postgres"
 host = "db"
 port = 5432
 maxPoolSize = 10
