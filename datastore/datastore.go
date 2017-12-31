@@ -1,6 +1,8 @@
 package datastore
 
 import (
+	"net/url"
+
 	"github.com/sudhanshuraheja/ifsc/db"
 	"github.com/sudhanshuraheja/ifsc/logger"
 )
@@ -26,9 +28,14 @@ func Search(query string) []Branch {
 	results := []Branch{}
 	database := db.Get()
 
-	logger.Debugln("Searching for", query)
+	escapedQuery, err := url.QueryUnescape(query)
+	if err != nil {
+		logger.Debugln("Could not parse query", query)
+	}
 
-	rows, err := database.Queryx("SELECT * FROM branches WHERE bank ILIKE '%' || $1 || '%' LIMIT 10", query)
+	logger.Debugln("Searching for", escapedQuery)
+
+	rows, err := database.Queryx("SELECT * FROM branches WHERE bank ILIKE '%' || $1 || '%' OR ifsc ILIKE '%' || $1 || '%' OR micr ILIKE '%' || $1 || '%' OR branch ILIKE '%' || $1 || '%' OR address ILIKE '%' || $1 || '%' OR city ILIKE '%' || $1 || '%' OR district ILIKE '%' || $1 || '%' OR state ILIKE '%' || $1 || '%' OR contact ILIKE '%' || $1 || '%' LIMIT 10", escapedQuery)
 	if err != nil {
 		logger.Debugln("Error in query", err)
 		return results
