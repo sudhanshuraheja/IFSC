@@ -1,10 +1,12 @@
 package excel
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/sudhanshuraheja/ifsc/config"
 	"github.com/sudhanshuraheja/ifsc/db"
@@ -15,14 +17,13 @@ import (
 func UpdateBanks() error {
 	logger.Infoln("Config", config.LatestDataExcel())
 
-	diskFilePath := "./data/tmp_ifs_download_1514702975.xlsx"
-	// diskFilePath := fmt.Sprintf("./data/tmp_ifs_download_%d.xlsx", time.Now().Unix())
+	diskFilePath := fmt.Sprintf("./data/tmp_ifs_download_%d.xlsx", time.Now().Unix())
 	logger.Infoln("Save to disk at", diskFilePath)
 
-	// err := downloadExcel(config.LatestDataExcel(), diskFilePath)
-	// if err != nil {
-	// 	logger.Fatal(err)
-	// }
+	err := downloadExcel(config.LatestDataExcel(), diskFilePath)
+	if err != nil {
+		logger.Fatal(err)
+	}
 
 	branches := Load(diskFilePath)
 	logger.Infoln("Branches.Count", branches.Count)
