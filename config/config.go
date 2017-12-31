@@ -16,6 +16,7 @@ type Config struct {
 	enableStaticFileServer bool
 	enableGzipCompression  bool
 	enableDelayMiddleware  bool
+	latestData             string
 	database               DatabaseConfig
 	mapsEnabled            bool
 	mapsKey                string
@@ -37,6 +38,7 @@ func Load() {
 	viper.SetDefault("server.enableStaticFileServer", false)
 	viper.SetDefault("server.enableGzipCompression", true)
 	viper.SetDefault("server.enableDelayMiddleware", false)
+	viper.SetDefault("excel.latestData", "file://./db/sample.xlsx")
 	viper.SetDefault("maps.enabled", false)
 
 	viper.ReadInConfig()
@@ -59,6 +61,7 @@ func readLatestConfig() {
 		enableStaticFileServer: viper.GetBool("server.enableStaticFileServer"),
 		enableGzipCompression:  viper.GetBool("server.enableGzipCompression"),
 		enableDelayMiddleware:  viper.GetBool("server.enableDelayMiddleware"),
+		latestData:             viper.GetString("excel.latestData"),
 		database:               newDatabaseConfig(),
 		mapsEnabled:            viper.GetBool("maps.enabled"),
 		mapsKey:                viper.GetString("maps.key"),
@@ -104,6 +107,11 @@ func EnableGzipCompression() bool {
 // EnableDelayMiddleware : Export if we want to enable delay middleware
 func EnableDelayMiddleware() bool {
 	return config.enableDelayMiddleware
+}
+
+// LatestDataExcel : return the URL of the latest excel which has the banks data
+func LatestDataExcel() string {
+	return config.latestData
 }
 
 // Database : export the database configuration

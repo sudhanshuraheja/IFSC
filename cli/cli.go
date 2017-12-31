@@ -5,6 +5,7 @@ import (
 
 	"github.com/sudhanshuraheja/ifsc/config"
 	"github.com/sudhanshuraheja/ifsc/db"
+	"github.com/sudhanshuraheja/ifsc/excel"
 	"github.com/sudhanshuraheja/ifsc/server"
 	"github.com/urfave/cli"
 )
@@ -37,6 +38,13 @@ func Start() {
 			Usage: "rollback the latest database migration",
 			Action: func(c *cli.Context) error {
 				return db.RollbackDatabaseMigration()
+			},
+		},
+		{
+			Name:  "updateBanks",
+			Usage: "take the latest list of banks and update db",
+			Action: func(c *cli.Context) error {
+				return excel.UpdateBanks()
 			},
 		},
 	}

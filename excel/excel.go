@@ -61,13 +61,15 @@ func (b *Branch) populate(row *xlsx.Row) {
 func Load(file string) Branches {
 	allBranches := Branches{}
 
+	logger.Infoln("Going to start reading file", file)
 	workBook, err := xlsx.OpenFile(file)
 	if err != nil {
 		logger.Debug(err.Error())
 		return allBranches
 	}
 
-	for _, sheet := range workBook.Sheets {
+	for sheetNumber, sheet := range workBook.Sheets {
+		logger.Infoln("Reading sheet", sheetNumber)
 		for _, row := range sheet.Rows {
 			sheetRow := Branch{}
 			sheetRow.populate(row)
