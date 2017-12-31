@@ -28,7 +28,7 @@ func Search(query string) []Branch {
 
 	logger.Debugln("Searching for", query)
 
-	rows, err := database.Queryx("SELECT * FROM branches WHERE bank LIKE '%' || $1 || '%' LIMIT 10", query)
+	rows, err := database.Queryx("SELECT * FROM branches WHERE bank ILIKE '%' || $1 || '%' LIMIT 10", query)
 	if err != nil {
 		logger.Debugln("Error in query", err)
 		return results
