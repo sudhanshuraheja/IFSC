@@ -1,7 +1,6 @@
 package excel
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/sudhanshuraheja/ifsc/logger"
@@ -25,7 +24,6 @@ type Branch struct {
 	District string `json:"district"`
 	State    string `json:"state"`
 	Contact  string `json:"contact"`
-	FullText string
 }
 
 func (b *Branch) populate(row *xlsx.Row) {
@@ -50,7 +48,6 @@ func (b *Branch) populate(row *xlsx.Row) {
 			b.District = textEntry
 		case 8:
 			b.State = textEntry
-			b.FullText = fmt.Sprintf("%s %s %s %s %s %s %s %s %s", b.Bank, b.Ifsc, b.Micr, b.Branch, b.Address, b.Contact, b.City, b.District, b.State)
 		default:
 			logger.Error("Mismatcing colums found")
 		}
