@@ -62,6 +62,12 @@
   version = "v1.7.4"
 
 [[projects]]
+  name = "github.com/mattes/migrate"
+  packages = [".","database","database/postgres","source","source/file"]
+  revision = "035c07716cd373d88456ec4d701402df52584cb4"
+  version = "v3.0.1"
+
+[[projects]]
   branch = "master"
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
@@ -166,6 +172,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "6da8d4f7aa2cf4aa631e1cba4331a72e7a7a491533c0ea6a7be0b2db3a23f82e"
+  inputs-digest = "fb0b89fefa8f6c03c2b24b5c6970f996554585b4eb01ca255b4a9422f7689787"
   solver-name = "gps-cdcl"
   solver-version = 1
