@@ -40,7 +40,7 @@ func Init() {
 
 // Close : close the db connection
 func Close() error {
-	logger.Infoln("DB.Close() called, closing the connection")
+	logger.Info("Closing the DB connection")
 	return db.Close()
 }
 
