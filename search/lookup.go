@@ -12,12 +12,12 @@ import (
 type GlobalIndex struct {
 	// map[key]lookup
 	// 		   map[ID]weight
-	list map[string]map[int]int
+	list map[string]map[int64]int
 }
 
 // Init : initialise the global index
 func (g *GlobalIndex) Init() {
-	g.list = make(map[string]map[int]int)
+	g.list = make(map[string]map[int64]int)
 }
 
 func (g *GlobalIndex) info() {
@@ -38,7 +38,7 @@ func (g *GlobalIndex) AddLookup(i Item) {
 			g.list[key][id] = weight
 		} else {
 			// Key doesn't exist, add key, id, weight map
-			weightForID := make(map[int]int)
+			weightForID := make(map[int64]int)
 			weightForID[id] = weight
 			g.list[key] = weightForID
 		}
@@ -56,10 +56,10 @@ func (g *GlobalIndex) findKey(query string) (string, error) {
 }
 
 // Find : find list of items which match this query
-func (g *GlobalIndex) Find(query string) (map[int]int, error) {
+func (g *GlobalIndex) Find(query string) (map[int64]int, error) {
 	key, err := g.findKey(query)
 	if err != nil {
-		return map[int]int{}, errors.New("We could not find any search results for " + query)
+		return map[int64]int{}, errors.New("We could not find any search results for " + query)
 	}
 
 	return g.list[key], nil

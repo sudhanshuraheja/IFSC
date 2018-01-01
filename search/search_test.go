@@ -54,7 +54,7 @@ func Test_buildIndex(t *testing.T) {
 		SubItem{Key: "contact", Value: "25260173", Weight: 2},
 	}
 	input := Item{ID: 1, SubItems: inputSubitems}
-	input.addIndex()
+	input.AddIndex()
 
 	assert.Equal(t, input.Index, map[string]int{"mumbai": 5, "abhyudaya": 6, "nagar": 1, "kurla": 1, "cooper": 5, "rtg": 2, "abhy0065001": 5, "400024": 1, "b": 1, "bldg": 1, "25260173": 2, "greater": 2, "e": 1, "limit": 5, "400065001": 2, "bank": 6, "maharashtra": 2, "71": 1, "no": 1, "nehru": 1, "ho": 2})
 
@@ -67,38 +67,38 @@ func Test_globalIndex(t *testing.T) {
 	input1 := Item{ID: 5, SubItems: []SubItem{
 		SubItem{Key: "test1", Value: "one two three", Weight: 1},
 	}}
-	input1.addIndex()
+	input1.AddIndex()
 
 	input2 := Item{ID: 6, SubItems: []SubItem{
 		SubItem{Key: "test2", Value: "two three four", Weight: 2},
 	}}
-	input2.addIndex()
+	input2.AddIndex()
 
 	input3 := Item{ID: 7, SubItems: []SubItem{
 		SubItem{Key: "test3", Value: "three four five", Weight: 3},
 	}}
-	input3.addIndex()
+	input3.AddIndex()
 
 	inx.AddLookup(input1)
 	inx.AddLookup(input2)
 	inx.AddLookup(input3)
 
-	expectedIndex := map[string]map[int]int{
+	expectedIndex := map[string]map[int64]int{
 		// On becuase one is stemmed to on
-		"on":    map[int]int{5: 1},
-		"two":   map[int]int{5: 1, 6: 2},
-		"three": map[int]int{5: 1, 6: 2, 7: 3},
-		"four":  map[int]int{6: 2, 7: 3},
-		"five":  map[int]int{7: 3},
+		"on":    map[int64]int{5: 1},
+		"two":   map[int64]int{5: 1, 6: 2},
+		"three": map[int64]int{5: 1, 6: 2, 7: 3},
+		"four":  map[int64]int{6: 2, 7: 3},
+		"five":  map[int64]int{7: 3},
 	}
 	assert.Equal(t, inx.list, expectedIndex)
 
 	ids, err := inx.Find("three")
 	assert.Equal(t, err, nil)
-	assert.Equal(t, ids, map[int]int{5: 1, 6: 2, 7: 3})
+	assert.Equal(t, ids, map[int64]int{5: 1, 6: 2, 7: 3})
 
 	ids, err = inx.Find("six")
 	assert.Equal(t, err.Error(), "We could not find any search results for six")
-	assert.Equal(t, ids, map[int]int{})
+	assert.Equal(t, ids, map[int64]int{})
 
 }

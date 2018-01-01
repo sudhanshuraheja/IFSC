@@ -8,7 +8,7 @@ import (
 
 // Item : each item that needs to be indexed
 type Item struct {
-	ID       int
+	ID       int64
 	SubItems []SubItem
 	Index    map[string]int
 }
@@ -20,7 +20,8 @@ type SubItem struct {
 	Weight int
 }
 
-func (i *Item) addIndex() {
+// AddIndex : add index for a specific item
+func (i *Item) AddIndex() {
 	i.Index = make(map[string]int)
 	for _, x := range i.SubItems {
 		i.Index = mergeMaps(i.Index, addSubItemIndex(x.Value, x.Weight))
