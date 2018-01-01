@@ -93,4 +93,12 @@ func Test_globalIndex(t *testing.T) {
 	}
 	assert.Equal(t, inx.list, expectedIndex)
 
+	ids, err := inx.Find("three")
+	assert.Equal(t, err, nil)
+	assert.Equal(t, ids, map[int]int{5: 1, 6: 2, 7: 3})
+
+	ids, err = inx.Find("six")
+	assert.Equal(t, err.Error(), "We could not find any search results for six")
+	assert.Equal(t, ids, map[int]int{})
+
 }
