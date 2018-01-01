@@ -92,6 +92,12 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/reiver/go-porterstemmer"
+  packages = ["."]
+  revision = "b4dd94e38f29620fe0f97ae4b0f6994b0d5d75f0"
+  version = "v1.0.1"
+
+[[projects]]
   name = "github.com/spf13/afero"
   packages = [".","mem"]
   revision = "8d919cbe7e2627e417f3e45c3c0e489a5b7e2536"
@@ -172,6 +178,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "fb0b89fefa8f6c03c2b24b5c6970f996554585b4eb01ca255b4a9422f7689787"
+  inputs-digest = "95c69afd209e139a87cc25436b2dcea668408bd59bddad337a6baf9b4fc2c5ca"
   solver-name = "gps-cdcl"
   solver-version = 1
