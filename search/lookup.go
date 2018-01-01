@@ -2,6 +2,8 @@ package search
 
 import (
 	"errors"
+	"fmt"
+	"strconv"
 
 	porterstemmer "github.com/reiver/go-porterstemmer"
 )
@@ -14,6 +16,14 @@ type globalIndex struct {
 
 func (g *globalIndex) Init() {
 	g.list = make(map[string]map[int]int)
+}
+
+func (g *globalIndex) info() {
+	linkages := 0
+	for _, value := range g.list {
+		linkages += len(value)
+	}
+	fmt.Println("Index now has " + strconv.Itoa(len(g.list)) + " keys and " + strconv.Itoa(linkages) + " linkages")
 }
 
 func (g *globalIndex) AddLookup(i item) {
@@ -30,6 +40,7 @@ func (g *globalIndex) AddLookup(i item) {
 			g.list[key] = weightForID
 		}
 	}
+	g.info()
 }
 
 func (g *globalIndex) findKey(query string) (string, error) {
