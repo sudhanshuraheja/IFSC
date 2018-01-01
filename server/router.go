@@ -14,6 +14,7 @@ func Router() http.Handler {
 	router := mux.NewRouter()
 	router.HandleFunc("/ping", pingHandler).Methods("GET")
 	router.HandleFunc("/search/{query}", searchHandler).Methods("GET")
+	router.HandleFunc("/index/rebuild", searchIndexRebuildHandler).Methods("GET")
 	return router
 }
 
@@ -36,4 +37,12 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 		logger.Error(err)
 	}
 	w.Write([]byte(data))
+}
+
+func searchIndexRebuildHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("{\"success\":\"true\"}"))
+
+	datastore.ReBuildIndex()
 }
