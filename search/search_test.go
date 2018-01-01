@@ -42,40 +42,40 @@ func Test_mergeMaps(t *testing.T) {
 
 func Test_buildIndex(t *testing.T) {
 
-	inputSubitems := []subitem{
-		subitem{key: "bank", value: "Abhyudaya Cooperative Bank Limited", weight: 5},
-		subitem{key: "ifsc", value: "Abhy0065001", weight: 5},
-		subitem{key: "micr", value: "400065001", weight: 2},
-		subitem{key: "branch", value: "Rtgs-Ho", weight: 2},
-		subitem{key: "address", value: "Abhyudaya Bank Bldg., B.No.71, Nehru Nagar, Kurla (E), Mumbai-400024", weight: 1},
-		subitem{key: "city", value: "Mumbai", weight: 2},
-		subitem{key: "district", value: "Greater Mumbai", weight: 2},
-		subitem{key: "state", value: "Maharashtra", weight: 2},
-		subitem{key: "contact", value: "25260173", weight: 2},
+	inputSubitems := []SubItem{
+		SubItem{Key: "bank", Value: "Abhyudaya Cooperative Bank Limited", Weight: 5},
+		SubItem{Key: "ifsc", Value: "Abhy0065001", Weight: 5},
+		SubItem{Key: "micr", Value: "400065001", Weight: 2},
+		SubItem{Key: "branch", Value: "Rtgs-Ho", Weight: 2},
+		SubItem{Key: "address", Value: "Abhyudaya Bank Bldg., B.No.71, Nehru Nagar, Kurla (E), Mumbai-400024", Weight: 1},
+		SubItem{Key: "city", Value: "Mumbai", Weight: 2},
+		SubItem{Key: "district", Value: "Greater Mumbai", Weight: 2},
+		SubItem{Key: "state", Value: "Maharashtra", Weight: 2},
+		SubItem{Key: "contact", Value: "25260173", Weight: 2},
 	}
-	input := item{ID: 1, subitems: inputSubitems}
+	input := Item{ID: 1, SubItems: inputSubitems}
 	input.addIndex()
 
-	assert.Equal(t, input.index, map[string]int{"mumbai": 5, "abhyudaya": 6, "nagar": 1, "kurla": 1, "cooper": 5, "rtg": 2, "abhy0065001": 5, "400024": 1, "b": 1, "bldg": 1, "25260173": 2, "greater": 2, "e": 1, "limit": 5, "400065001": 2, "bank": 6, "maharashtra": 2, "71": 1, "no": 1, "nehru": 1, "ho": 2})
+	assert.Equal(t, input.Index, map[string]int{"mumbai": 5, "abhyudaya": 6, "nagar": 1, "kurla": 1, "cooper": 5, "rtg": 2, "abhy0065001": 5, "400024": 1, "b": 1, "bldg": 1, "25260173": 2, "greater": 2, "e": 1, "limit": 5, "400065001": 2, "bank": 6, "maharashtra": 2, "71": 1, "no": 1, "nehru": 1, "ho": 2})
 
 }
 
 func Test_globalIndex(t *testing.T) {
-	var inx globalIndex
+	var inx GlobalIndex
 	inx.Init()
 
-	input1 := item{ID: 5, subitems: []subitem{
-		subitem{key: "test1", value: "one two three", weight: 1},
+	input1 := Item{ID: 5, SubItems: []SubItem{
+		SubItem{Key: "test1", Value: "one two three", Weight: 1},
 	}}
 	input1.addIndex()
 
-	input2 := item{ID: 6, subitems: []subitem{
-		subitem{key: "test2", value: "two three four", weight: 2},
+	input2 := Item{ID: 6, SubItems: []SubItem{
+		SubItem{Key: "test2", Value: "two three four", Weight: 2},
 	}}
 	input2.addIndex()
 
-	input3 := item{ID: 7, subitems: []subitem{
-		subitem{key: "test3", value: "three four five", weight: 3},
+	input3 := Item{ID: 7, SubItems: []SubItem{
+		SubItem{Key: "test3", Value: "three four five", Weight: 3},
 	}}
 	input3.addIndex()
 

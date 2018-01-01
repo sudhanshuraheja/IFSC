@@ -8,17 +8,19 @@ import (
 	porterstemmer "github.com/reiver/go-porterstemmer"
 )
 
-type globalIndex struct {
+// GlobalIndex : list of all indexes
+type GlobalIndex struct {
 	// map[key]lookup
 	// 		   map[ID]weight
 	list map[string]map[int]int
 }
 
-func (g *globalIndex) Init() {
+// Init : initialise the global index
+func (g *GlobalIndex) Init() {
 	g.list = make(map[string]map[int]int)
 }
 
-func (g *globalIndex) info() {
+func (g *GlobalIndex) info() {
 	linkages := 0
 	for _, value := range g.list {
 		linkages += len(value)
@@ -26,9 +28,10 @@ func (g *globalIndex) info() {
 	fmt.Println("Index now has " + strconv.Itoa(len(g.list)) + " keys and " + strconv.Itoa(linkages) + " linkages")
 }
 
-func (g *globalIndex) AddLookup(i item) {
+// AddLookup : add indexes for a particular item to the index
+func (g *GlobalIndex) AddLookup(i Item) {
 	id := i.ID
-	for key, weight := range i.index {
+	for key, weight := range i.Index {
 		// Check if key exists in globalIndex
 		_, keyExists := g.list[key]
 		if keyExists {
@@ -43,7 +46,7 @@ func (g *globalIndex) AddLookup(i item) {
 	g.info()
 }
 
-func (g *globalIndex) findKey(query string) (string, error) {
+func (g *GlobalIndex) findKey(query string) (string, error) {
 	stemmedKey := porterstemmer.StemString(query)
 	_, keyExists := g.list[stemmedKey]
 	if !keyExists {
@@ -52,7 +55,8 @@ func (g *globalIndex) findKey(query string) (string, error) {
 	return stemmedKey, nil
 }
 
-func (g *globalIndex) Find(query string) (map[int]int, error) {
+// Find : find list of items which match this query
+func (g *GlobalIndex) Find(query string) (map[int]int, error) {
 	key, err := g.findKey(query)
 	if err != nil {
 		return map[int]int{}, errors.New("We could not find any search results for " + query)

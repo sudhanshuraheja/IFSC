@@ -6,22 +6,24 @@ import (
 	porterstemmer "github.com/reiver/go-porterstemmer"
 )
 
-type item struct {
+// Item : each item that needs to be indexed
+type Item struct {
 	ID       int
-	subitems []subitem
-	index    map[string]int
+	SubItems []SubItem
+	Index    map[string]int
 }
 
-type subitem struct {
-	key    string
-	value  string
-	weight int
+// SubItem : each component inside an item that can have a separate weight
+type SubItem struct {
+	Key    string
+	Value  string
+	Weight int
 }
 
-func (i *item) addIndex() {
-	i.index = make(map[string]int)
-	for _, x := range i.subitems {
-		i.index = mergeMaps(i.index, addSubItemIndex(x.value, x.weight))
+func (i *Item) addIndex() {
+	i.Index = make(map[string]int)
+	for _, x := range i.SubItems {
+		i.Index = mergeMaps(i.Index, addSubItemIndex(x.Value, x.Weight))
 	}
 }
 
