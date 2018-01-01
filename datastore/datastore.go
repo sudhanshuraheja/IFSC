@@ -31,7 +31,7 @@ type Branch struct {
 
 // ToString : convert Branch object to String
 func (b Branch) ToString() string {
-	return fmt.Sprintf("%s %s %s %s %s %s %s %s %s %s %s %s", strconv.FormatInt(b.DBId, 10), b.Bank, b.Ifsc, b.Micr, b.Branch, b.Address, b.City, b.District, b.State, b.Contact, b.CreatedAt, b.UpdatedAt)
+	return fmt.Sprintf("[%s] %s %s %s %s %s %s %s %s %s %s %s", strconv.FormatInt(b.DBId, 10), b.Bank, b.Ifsc, b.Micr, b.Branch, b.Address, b.City, b.District, b.State, b.Contact, b.CreatedAt, b.UpdatedAt)
 }
 
 // Init : initialise the datastore
@@ -46,7 +46,7 @@ func ReBuildIndex() {
 
 	// Fetch all records from the DB and populate the index
 	database := db.Get()
-	rows, err := database.Queryx("SELECT * FROM branches LIMIT 2000")
+	rows, err := database.Queryx("SELECT * FROM branches")
 	if err != nil {
 		logger.Debugln("Error in query", err)
 		return
@@ -73,7 +73,7 @@ func ReBuildIndex() {
 			search.SubItem{Key: "contact", Value: b.Contact, Weight: 2},
 		}}
 
-		logger.Infoln("Adding", b.Bank, b.Ifsc, b.Micr, b.Branch, b.Address, b.City, b.District, b.State, b.Contact)
+		logger.Infoln(b.ToString())
 
 		thisRow.AddIndex()
 		inx.AddLookup(thisRow)
