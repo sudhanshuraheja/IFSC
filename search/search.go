@@ -21,20 +21,12 @@ type subitem struct {
 func (i *item) addIndex() {
 	i.index = make(map[string]int)
 	for _, x := range i.subitems {
-		i.index = mergeMaps(i.index, addSubItem(x.value, x.weight))
+		i.index = mergeMaps(i.index, addSubItemIndex(x.value, x.weight))
 	}
-}
-
-func addItem(input item) map[string]int {
-	result := make(map[string]int)
-	for _, i := range input.subitems {
-		result = mergeMaps(result, addSubItem(i.value, i.weight))
-	}
-	return result
 }
 
 // AddSubItem : Add a subItem from an external file
-func addSubItem(value string, weight int) map[string]int {
+func addSubItemIndex(value string, weight int) map[string]int {
 	words := splitWords(value)
 	frequency := wordFrequencyCounter(stemWords(words), weight)
 	return frequency

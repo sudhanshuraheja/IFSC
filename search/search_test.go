@@ -54,7 +54,43 @@ func Test_buildIndex(t *testing.T) {
 		subitem{key: "contact", value: "25260173", weight: 2},
 	}
 	input := item{ID: 1, subitems: inputSubitems}
-
 	input.addIndex()
+
 	assert.Equal(t, input.index, map[string]int{"mumbai": 5, "abhyudaya": 6, "nagar": 1, "kurla": 1, "cooper": 5, "rtg": 2, "abhy0065001": 5, "400024": 1, "b": 1, "bldg": 1, "25260173": 2, "greater": 2, "e": 1, "limit": 5, "400065001": 2, "bank": 6, "maharashtra": 2, "71": 1, "no": 1, "nehru": 1, "ho": 2})
+
+}
+
+func Test_globalIndex(t *testing.T) {
+	var inx globalIndex
+	inx.Init()
+
+	input1 := item{ID: 5, subitems: []subitem{
+		subitem{key: "test1", value: "one two three", weight: 1},
+	}}
+	input1.addIndex()
+
+	input2 := item{ID: 6, subitems: []subitem{
+		subitem{key: "test2", value: "two three four", weight: 2},
+	}}
+	input2.addIndex()
+
+	input3 := item{ID: 7, subitems: []subitem{
+		subitem{key: "test3", value: "three four five", weight: 3},
+	}}
+	input3.addIndex()
+
+	inx.AddLookup(input1)
+	inx.AddLookup(input2)
+	inx.AddLookup(input3)
+
+	expectedIndex := map[string]map[int]int{
+		// On becuase one is stemmed to on
+		"on":    map[int]int{5: 1},
+		"two":   map[int]int{5: 1, 6: 2},
+		"three": map[int]int{5: 1, 6: 2, 7: 3},
+		"four":  map[int]int{6: 2, 7: 3},
+		"five":  map[int]int{7: 3},
+	}
+	assert.Equal(t, inx.list, expectedIndex)
+
 }
