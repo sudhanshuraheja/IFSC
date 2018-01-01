@@ -12,6 +12,7 @@ func main() {
 	config.Load()
 	logger.Setup()
 	db.Init()
+	defer db.Close()
 	cli.Start()
 	datastore.Init()
 }
