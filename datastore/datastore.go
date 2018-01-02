@@ -1,43 +1,19 @@
 package datastore
 
 import (
-	"fmt"
 	"net/url"
-	"strconv"
-	"strings"
 
 	"github.com/sudhanshuraheja/ifsc/db"
 	"github.com/sudhanshuraheja/ifsc/logger"
+	"github.com/sudhanshuraheja/ifsc/model"
 	"github.com/sudhanshuraheja/ifsc/search"
 )
 
-var inx search.GlobalIndex
-
-// Branch : struct for the data in branch table
-type Branch struct {
-	DBId      int64  `db:"id" json:"id"`
-	Bank      string `db:"bank" json:"bank"`
-	Ifsc      string `db:"ifsc" json:"ifsc"`
-	Micr      string `db:"micr" json:"micr"`
-	Branch    string `db:"branch" json:"branch"`
-	Address   string `db:"address" json:"address"`
-	City      string `db:"city" json:"city"`
-	District  string `db:"district" json:"district"`
-	State     string `db:"state" json:"state"`
-	Contact   string `db:"contact" json:"contact"`
-	CreatedAt string `db:"created_at" json:"created_at"`
-	UpdatedAt string `db:"updated_at" json:"updated_at"`
-}
-
-// ToString : convert Branch object to String
-func (b Branch) ToString() string {
-	return fmt.Sprintf("[%s] %s %s %s %s %s %s %s %s %s %s %s", strconv.FormatInt(b.DBId, 10), b.Bank, b.Ifsc, b.Micr, b.Branch, b.Address, b.City, b.District, b.State, b.Contact, b.CreatedAt, b.UpdatedAt)
-}
+var inx search.WordIndex
 
 // Init : initialise the datastore
 func Init() {
 	logger.Debugln("Initialising the global search store")
-	inx.Init()
 }
 
 // ReBuildIndex : build up the search index once again
@@ -54,7 +30,7 @@ func ReBuildIndex() {
 	defer rows.Close()
 
 	for rows.Next() {
-		var b Branch
+		var b model.Branch
 		err = rows.StructScan(&b)
 
 		if err != nil {
@@ -81,90 +57,24 @@ func ReBuildIndex() {
 }
 
 // Search : search the datastore
-func Search(query string) []Branch {
+func Search(query string) []model.Branch {
 	// return SearchFromPostgres(query)
-	return SearchFromGlobalIndex(query)
+	return SearchFromIndex(query)
 }
 
-// SearchFromGlobalIndex : search the the new global search index
-func SearchFromGlobalIndex(query string) []Branch {
-	results := []Branch{}
-	database := db.Get()
-
+// SearchFromIndex : search the the new db search index
+func SearchFromIndex(query string) []model.Branch {
 	escapedQuery, err := url.QueryUnescape(query)
 	if err != nil {
 		logger.Debugln("Could not parse query", query)
+		return []model.Branch{}
 	}
 	logger.Debugln("Searching for", escapedQuery)
 
-	ids, err := inx.Find(escapedQuery)
+	results, err := inx.Find(escapedQuery)
 	if err != nil {
-		logger.Debugln("Got error from global index", err.Error())
-		return results
-	}
-
-	foundIds := []string{}
-	for ID := range ids {
-		logger.Infoln("ID", ID)
-		foundIds = append(foundIds, strconv.FormatInt(ID, 10))
-	}
-
-	if len(foundIds) == 0 {
-		logger.Debug("Found no results in global index")
-		return results
-	}
-
-	rows, err := database.Queryx("SELECT * FROM branches WHERE id IN (" + strings.Join(foundIds, ",") + ")")
-
-	if err != nil {
-		logger.Debugln("Error in query", err)
-		return results
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var b Branch
-		err = rows.StructScan(&b)
-
-		logger.Debugln("DB:", b.ToString())
-
-		if err != nil {
-			logger.Debugln("Error is parsing row", err)
-		}
-
-		results = append(results, b)
-	}
-
-	return results
-}
-
-// SearchFromPostgres : search the the postgres db with iLikes
-func SearchFromPostgres(query string) []Branch {
-	results := []Branch{}
-	database := db.Get()
-
-	escapedQuery, err := url.QueryUnescape(query)
-	if err != nil {
-		logger.Debugln("Could not parse query", query)
-	}
-	logger.Debugln("Searching for", escapedQuery)
-
-	rows, err := database.Queryx("SELECT * FROM branches WHERE bank ILIKE '%' || $1 || '%' OR ifsc ILIKE '%' || $1 || '%' OR micr ILIKE '%' || $1 || '%' OR branch ILIKE '%' || $1 || '%' OR address ILIKE '%' || $1 || '%' OR city ILIKE '%' || $1 || '%' OR district ILIKE '%' || $1 || '%' OR state ILIKE '%' || $1 || '%' OR contact ILIKE '%' || $1 || '%' LIMIT 10", escapedQuery)
-	if err != nil {
-		logger.Debugln("Error in query", err)
-		return results
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var b Branch
-		err = rows.StructScan(&b)
-
-		if err != nil {
-			logger.Debugln("Error is parsing row", err)
-		}
-
-		results = append(results, b)
+		logger.Debugln("Caught error", err.Error())
+		return []model.Branch{}
 	}
 
 	return results
