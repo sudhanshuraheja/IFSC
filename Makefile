@@ -40,9 +40,12 @@ lint:
 test:
 	go test ./... -p=1 -race
 
+coverage:
+	./test.sh
+
 build: update fmt vet lint compile test
 
-build_ci: clean setup_linux update fmt vet lint copy-config compile test
+build_ci: clean setup_linux update fmt vet lint copy-config compile coverage
 
 copy-config:
 	cp application.toml.sample application.toml
