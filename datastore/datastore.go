@@ -11,11 +11,6 @@ import (
 
 var inx search.WordIndex
 
-// Init : initialise the datastore
-func Init() {
-	logger.Debugln("Initialising the global search store")
-}
-
 // ReBuildIndex : build up the search index once again
 func ReBuildIndex() {
 	logger.Infoln("Got a request to rebuild the index again")

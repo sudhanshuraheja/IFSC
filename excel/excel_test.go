@@ -1,6 +1,7 @@
 package excel
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,7 +13,10 @@ func Test_one(t *testing.T) {
 	config.Load()
 	logger.Setup()
 
-	allBranches := Load("../data/sample.xlsx")
-	assert.Equal(t, allBranches.Count, 139491)
-	assert.NotEmpty(t, allBranches.List[139490].Bank)
+	dir, _ := os.Getwd()
+	logger.Infoln(dir)
+
+	allBranches := Load("../data/sample_tiny.xlsx")
+	assert.Equal(t, allBranches.Count, 12)
+	assert.NotEmpty(t, allBranches.List[11].Bank)
 }
