@@ -17,6 +17,7 @@ import (
 func UpdateBanks() error {
 	logger.Infoln("Config", config.LatestDataExcel())
 
+	// diskFilePath := "./data/tmp_ifs_download_1514702975.xlsx"
 	diskFilePath := fmt.Sprintf("./data/tmp_ifs_download_%d.xlsx", time.Now().Unix())
 	logger.Infoln("Save to disk at", diskFilePath)
 
@@ -41,7 +42,6 @@ func UpdateBanks() error {
 			continue
 		}
 
-		logger.Infoln(branch.Bank, "name of the branch")
 		// Insert data into DB
 		_, err := database.Exec("INSERT INTO branches (bank, ifsc, micr, branch, address, city, district, state, contact) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", branch.Bank, branch.Ifsc, branch.Micr, branch.Branch, branch.Address, branch.City, branch.District, branch.State, branch.Contact)
 		if err != nil {

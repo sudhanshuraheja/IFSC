@@ -21,3 +21,4 @@ out/*
 # Config Files
 application.toml
 application.toml.ci
+application.toml.backup
