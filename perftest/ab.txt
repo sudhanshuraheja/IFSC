@@ -1,0 +1,108 @@
+ab -n 1000 -c 100 -g one http://localhost:3000/search/ZACH
+
+#1
+
+	Requests per second:    6.28 [#/sec] (mean)
+	Time per request:       15917.077 [ms] (mean)
+
+	  95%  22036
+	  98%  24010
+	  99%  25494
+	 100%  29215 (longest request)
+
+#2 Creating fullText entry outside of request
+
+	Requests per second:    13.17 [#/sec] (mean)
+	Time per request:       7594.366 [ms] (mean)
+
+	  95%  11406
+	  98%  12644
+	  99%  13496
+	 100%  18155 (longest request)
+
+#3 Make results is now 5
+
+	Requests per second:    16.64 [#/sec] (mean)
+	Time per request:       6010.716 [ms] (mean)
+	  
+	  95%   9438
+	  98%   9992
+	  99%  11170
+	 100%  14524 (longest request)
+
+#4 created an inline cache
+
+	Requests per second:    163.73 [#/sec] (mean)
+	Time per request:       610.750 [ms] (mean)
+
+	  95%   5252
+	  98%   5935
+	  99%   5963
+	 100%   6058 (longest request)
+
+
+#5 removed inline, added postgres, doing a like query on every field
+
+	Requests per second:    3.05 [#/sec] (mean)
+	Time per request:       32795.640 [ms] (mean)
+
+	  95%  112168
+	  98%  175435
+	  99%  215005
+	 100%  305616 (longest request)
+
+
+#6 moved search to global index with stemming
+
+	Index now has 442596 keys and 2383232 linkages
+	[negroni] 2018-01-02T00:00:43+07:00 | 200 | 	 1h0m53.581611774s | localhost:3000 | GET /index/rebuild
+
+	localhost:3000/search/Phulwarisharif
+	download size 1.65kb
+	ab -n 1000 -c 100 -g one http://localhost:3000/search/Phulwarisharif
+
+	Requests per second:    399.81 [#/sec] (mean)
+	Time per request:       250.118 [ms] (mean)
+
+	  95%    926
+	  98%   1530
+	  99%   1667
+	 100%   1839 (longest request)
+
+	 localhost:3000/search/Allahabad
+	 download size 1.41mb
+	 ab -n 1000 -c 100 -g one http://localhost:3000/search/Allahabad
+
+#7 moved search to global but served from postgres with stemming
+
+	ab -n 1000 -c 100 -g one http://localhost:3000/search/Phulwarisharif
+	download size 1.67kb
+
+	Requests per second:    332.34 [#/sec] (mean)
+	Time per request:       300.893 [ms] (mean)
+
+	  95%   1080
+	  98%   1778
+	  99%   2111
+	 100%   2511 (longest request)
+
+	ab -n 1000 -c 100 -g one http://localhost:3000/search/kurla
+
+	Requests per second:    206.27 [#/sec] (mean)
+	Time per request:       484.804 [ms] (mean)
+
+	  95%   1715
+	  98%   2927
+	  99%   3393
+	 100%   3788 (longest request)
+
+	ab -n 1000 -c 100 -g one http://localhost:3000/search/nagar
+	download size 9.4kb
+
+	Requests per second:    52.79 [#/sec] (mean)
+	Time per request:       1894.223 [ms] (mean)
+
+	  95%   7405
+	  98%   8684
+	  99%   9607
+	 100%  12669 (longest request)

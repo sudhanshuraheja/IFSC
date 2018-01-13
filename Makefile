@@ -75,3 +75,7 @@ copy-configs: copy-config copy-config-ci
 build-update-banks:
 	go install
 	ifsc updateBanks
+
+perftest:
+	vegeta attack -targets=perftest/target.txt -rate=100 -duration=10s | vegeta report -reporter=plot -output=perftest/report.html
+	open perftest/report.html

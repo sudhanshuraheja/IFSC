@@ -1,0 +1,3 @@
+GET http://localhost:3000/search/Phulwarisharif
+GET http://localhost:3000/search/kurla
+GET http://localhost:3000/search/nagar
