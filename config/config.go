@@ -27,8 +27,9 @@ var config *Config
 // Load config from file
 func Load() {
 	viper.AutomaticEnv()
-	viper.SetConfigName("application")
 	viper.AddConfigPath(".")
+	viper.AddConfigPath("..")
+	viper.SetConfigName("application")
 	viper.SetConfigType("toml")
 
 	viper.SetDefault("application.name", "ifsc")

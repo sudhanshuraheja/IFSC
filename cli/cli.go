@@ -11,7 +11,7 @@ import (
 )
 
 // Start : start the cli wrapper
-func Start() {
+func Start() *cli.App {
 	app := cli.NewApp()
 	app.Name = config.Name()
 	app.Version = config.Version()
@@ -52,4 +52,6 @@ func Start() {
 	if err := app.Run(os.Args); err != nil {
 		panic(err)
 	}
+
+	return app
 }
