@@ -42,7 +42,7 @@ test:
 
 build: update fmt vet lint compile test
 
-build_ci: setup_linux update fmt vet lint copy-config compile test
+build_ci: clean setup_linux update fmt vet lint copy-config compile test
 
 copy-config:
 	cp application.toml.sample application.toml
@@ -51,6 +51,9 @@ install:
 	go install
 
 clean:
+	rm -rf application.toml
+	rm -rf coverage.html
+	rm -rf coverage.txt
 	rm -rf out/ifsc
 	rm -rf out/coverage.html
 	rm -rf coverage-all.out
