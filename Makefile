@@ -42,13 +42,10 @@ test:
 
 build: update fmt vet lint compile test
 
-build_ci: setup_linux update fmt vet lint copy-config-ci compile test
+build_ci: setup_linux update fmt vet lint copy-config compile test
 
 copy-config:
 	cp application.toml.sample application.toml
-
-copy-config-ci:
-	cp application.toml.sample application.toml.ci
 
 install:
 	go install
