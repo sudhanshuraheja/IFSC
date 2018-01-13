@@ -39,7 +39,10 @@ lint:
 		golint $$p | { grep -vwE "exported (var|function|method|type|const) \S+ should have comment" || true; } \
 	done
 
-build: update fmt vet lint compile
+testall:
+	go test ./...
+
+build: update fmt vet lint compile testall
 
 run: fmt vet lint install
 
