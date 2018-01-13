@@ -6,8 +6,11 @@ UNIT_TEST_PACKAGES=$(go list ./... | grep -v "vendor" | grep -v "featuretest")
 
 APP_EXECUTABLE="out/ifsc"
 
-setup:
+setup_mac:
 	brew install dep
+
+setup_linux:
+	go get -u github.com/golang/dep/cmd/dep
 
 init:
 	dep init
@@ -22,11 +25,6 @@ compile:
 	mkdir -p out/
 	go build -o $(APP_EXECUTABLE)
 
-restart:
-	mkdir -p out/
-	go install $(ALL_PACKAGES)
-	ifsc start
-
 fmt:
 	go fmt $(ALL_PACKAGES)
 
@@ -39,33 +37,12 @@ lint:
 		golint $$p | { grep -vwE "exported (var|function|method|type|const) \S+ should have comment" || true; } \
 	done
 
-testall:
-	go test ./...
-
-build: update fmt vet lint compile testall
-
-run: fmt vet lint install
-
-install:
-	go install $(ALL_PACKAGES)
-
 test:
-	ENVIRONMENT=test go test $(UNIT_TEST_PACKAGES) -p=1 -race
+	go test ./... -p=1 -race
 
-test_ci:
-	ENVIRONMENT=test go test $(UNIT_TEST_PACKAGES) -p=1 -race
+build: update fmt vet lint compile test
 
-test-cover-html:
-	@echo "mode: count" > coverage-all.out
-	$(foreach pkg, $(ALL_PACKAGES),\
-	ENVIRONMENT=test go test -coverprofile=coverage.out -covermode=count $(pkg);\
-	tail -n +2 coverage.out >> coverage-all.out;)
-	go tool cover -html=coverage-all.out -o out/coverage.html
-
-test-open-html:
-	open out/coverage.html
-
-test-coverage: test-cover-html test-open-html
+build_ci: setup_linux update fmt vet lint compile test
 
 copy-config:
 	cp application.toml.sample application.toml
@@ -73,11 +50,8 @@ copy-config:
 copy-config-ci:
 	cp application.toml.sample application.toml.ci
 
-copy-configs: copy-config copy-config-ci
-
-build-update-banks:
+install:
 	go install
-	ifsc updateBanks
 
 perftest:
 	vegeta attack -targets=perftest/target.txt -rate=100 -duration=10s | vegeta report -reporter=plot -output=perftest/report.html

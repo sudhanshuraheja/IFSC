@@ -6,4 +6,4 @@ go:
 before_install:
 
 script:
-  - make build
+  - make build_ci
