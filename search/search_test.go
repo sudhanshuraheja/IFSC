@@ -5,7 +5,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/sudhanshuraheja/ifsc/config"
-	"github.com/sudhanshuraheja/ifsc/db"
 	"github.com/sudhanshuraheja/ifsc/logger"
 )
 
@@ -66,10 +65,10 @@ func Test_buildIndex(t *testing.T) {
 func Test_globalIndex(t *testing.T) {
 	config.Load()
 	logger.Setup()
-	db.Init()
-	defer db.Close()
+	// db.Init()
+	// defer db.Close()
 
-	var inx WordIndex
+	// var inx WordIndex
 
 	input1 := Item{ID: 5, SubItems: []SubItem{
 		SubItem{Key: "test1", Value: "one two three", Weight: 1},
@@ -86,9 +85,9 @@ func Test_globalIndex(t *testing.T) {
 	}}
 	input3.AddIndex()
 
-	inx.AddLookup(input1)
-	inx.AddLookup(input2)
-	inx.AddLookup(input3)
+	// inx.AddLookup(input1)
+	// inx.AddLookup(input2)
+	// inx.AddLookup(input3)
 
 	// ids, err := inx.Find("three")
 	// assert.Equal(t, nil, err)
