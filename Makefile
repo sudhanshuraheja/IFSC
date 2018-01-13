@@ -53,6 +53,11 @@ copy-config-ci:
 install:
 	go install
 
+clean:
+	rm -rf out/ifsc
+	rm -rf out/coverage.html
+	rm -rf coverage-all.out
+
 perftest:
 	vegeta attack -targets=perftest/target.txt -rate=100 -duration=10s | vegeta report -reporter=plot -output=perftest/report.html
 	open perftest/report.html

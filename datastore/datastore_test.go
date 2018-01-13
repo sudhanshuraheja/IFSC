@@ -32,6 +32,4 @@ func Test_RebuildIndex(t *testing.T) {
 	defer db.Close()
 
 	ReBuildIndex()
-
-	SearchFromGlobalIndex("Alla0210500")
 }
