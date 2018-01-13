@@ -65,8 +65,6 @@ func (w *WordIndex) Find(query string) ([]model.Branch, error) {
 		var b model.Branch
 		err = rows.StructScan(&b)
 
-		logger.Debugln("ROW:", b.ToString())
-
 		if err != nil {
 			logger.Debugln("Error is parsing row", err)
 		}
@@ -74,6 +72,5 @@ func (w *WordIndex) Find(query string) ([]model.Branch, error) {
 		results = append(results, b)
 	}
 
-	// return g.list[key], nil
 	return results, nil
 }

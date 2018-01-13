@@ -49,8 +49,6 @@ func ReBuildIndex() {
 			search.SubItem{Key: "contact", Value: b.Contact, Weight: 2},
 		}}
 
-		logger.Infoln(b.ToString())
-
 		thisRow.AddIndex()
 		inx.AddLookup(thisRow)
 	}
