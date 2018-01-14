@@ -35,12 +35,11 @@ func Init() {
 	database.SetMaxIdleConns(config.Database().MaxPoolSize())
 	database.SetMaxOpenConns(config.Database().MaxPoolSize())
 	database.SetConnMaxLifetime(connMaxLifetime)
-	logger.Infoln("DB.Init() has been successfully done")
 }
 
 // Close : close the db connection
 func Close() error {
-	logger.Info("Closing the DB connection")
+	logger.Debug("Closing the DB connection")
 	return database.Close()
 }
 

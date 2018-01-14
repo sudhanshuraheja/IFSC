@@ -46,7 +46,8 @@ func RollbackDatabaseMigration() error {
 	}
 
 	if err := m.Steps(-1); err != nil {
-		return err
+		logger.Info("We have already removed all migrations")
+		return nil
 	}
 
 	logger.Info("Rollback Successful")
