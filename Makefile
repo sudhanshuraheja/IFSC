@@ -44,7 +44,6 @@ testp:
 	go test -covermode=count -v
 
 coverage:
-	./test.sh
 	go tool cover -html=coverage.txt -o coverage.html
 
 build: update fmt vet lint compile test

@@ -23,6 +23,11 @@ func SplitWords(line string) []string {
 	return words
 }
 
+// StemWord returns the stemmed word
+func StemWord(query string) string {
+	return porterstemmer.StemString(query)
+}
+
 // StemWords with porterStemmer
 func StemWords(words []string) []string {
 	output := []string{}

@@ -1,34 +1,67 @@
 package search
 
 import (
+	"github.com/sudhanshuraheja/ifsc/db"
+	"github.com/sudhanshuraheja/ifsc/logger"
+	"github.com/sudhanshuraheja/ifsc/model"
 	"github.com/sudhanshuraheja/ifsc/utils"
 )
 
-// Item : each item that needs to be indexed
-type Item struct {
-	ID       int64
-	SubItems []SubItem
-	Index    map[string]int
+// BuildIndex : build up the search index
+func BuildIndex() {
+	logger.Infoln("Got a request to rebuild the index again")
+	getBranches()
 }
 
-// SubItem : each component inside an item that can have a separate weight
-type SubItem struct {
-	Key    string
-	Value  string
-	Weight int
-}
+func getBranches() {
+	db := db.Get()
+	// Fetch all records from the DB and populate the index
+	rows, err := db.Queryx("SELECT * FROM branches")
+	if err != nil {
+		logger.Debugln("Error in query", err)
+		return
+	}
+	defer rows.Close()
 
-// AddIndex : add index for a specific item
-func (i *Item) AddIndex() {
-	i.Index = make(map[string]int)
-	for _, x := range i.SubItems {
-		i.Index = utils.MergeMaps(i.Index, addSubItemIndex(x.Value, x.Weight))
+	for rows.Next() {
+		var b model.Branch
+		err = rows.StructScan(&b)
+
+		if err != nil {
+			logger.Debugln("Error is parsing row", err)
+		}
+
+		keywords := make(map[string]int)
+		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.Bank, 5))
+		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.Ifsc, 3))
+		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.Micr, 1))
+		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.Branch, 3))
+		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.Address, 1))
+		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.City, 2))
+		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.District, 2))
+		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.State, 2))
+		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.Contact, 2))
+
+		saveKeywords(b.DBId, keywords)
 	}
 }
 
-// AddSubItem : Add a subItem from an external file
-func addSubItemIndex(value string, weight int) map[string]int {
+func addBankIndexKeywords(value string, weight int) map[string]int {
 	words := utils.SplitWords(value)
 	frequency := utils.WordFrequencyCounter(utils.StemWords(words), weight)
 	return frequency
+}
+
+func saveKeywords(branch int64, keywords map[string]int) error {
+	database := db.Get()
+
+	for key, weight := range keywords {
+
+		_, err := database.Exec("INSERT INTO search (branch, key, weight) VALUES ($1, $2, $3) ON CONFLICT (branch, key) DO UPDATE SET weight = $3 WHERE search.branch = $1 and search.key = $2", branch, key, weight)
+		if err != nil {
+			logger.Fatalln("Pushing to DB for", branch, key, weight, "failed with error", err)
+			return err
+		}
+	}
+	return nil
 }

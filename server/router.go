@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/sudhanshuraheja/ifsc/datastore"
 	"github.com/sudhanshuraheja/ifsc/logger"
+	"github.com/sudhanshuraheja/ifsc/search"
 )
 
 // Router : route requests to handlers
@@ -43,6 +44,5 @@ func searchIndexRebuildHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("{\"success\":\"true\"}"))
-
-	datastore.ReBuildIndex()
+	search.BuildIndex()
 }
