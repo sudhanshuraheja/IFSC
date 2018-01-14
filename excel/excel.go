@@ -4,29 +4,17 @@ import (
 	"strings"
 
 	"github.com/sudhanshuraheja/ifsc/logger"
+	"github.com/sudhanshuraheja/ifsc/model"
 	"github.com/tealeg/xlsx"
 )
 
 // Branches : Array and Count of all branches that we could find in the excel
 type Branches struct {
 	Count int
-	List  []Branch
+	List  []model.Branch
 }
 
-// Branch : list of details of a bank branch
-type Branch struct {
-	Bank     string `json:"bank"`
-	Ifsc     string `json:"ifsc"`
-	Micr     string `json:"micr"`
-	Branch   string `json:"branch"`
-	Address  string `json:"address"`
-	City     string `json:"city"`
-	District string `json:"district"`
-	State    string `json:"state"`
-	Contact  string `json:"contact"`
-}
-
-func (b *Branch) populate(row *xlsx.Row) {
+func populate(b *model.Branch, row *xlsx.Row) {
 	for index, cell := range row.Cells {
 		textEntry := formatString(cell.String())
 		switch index {
@@ -68,8 +56,8 @@ func Load(file string) Branches {
 	for sheetNumber, sheet := range workBook.Sheets {
 		logger.Infoln("Reading sheet", sheetNumber)
 		for _, row := range sheet.Rows {
-			sheetRow := Branch{}
-			sheetRow.populate(row)
+			sheetRow := model.Branch{}
+			populate(&sheetRow, row)
 			allBranches.List = append(allBranches.List, sheetRow)
 			allBranches.Count++
 		}
