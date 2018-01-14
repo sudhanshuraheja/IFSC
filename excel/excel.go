@@ -8,10 +8,27 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-// Branches : Array and Count of all branches that we could find in the excel
-type Branches struct {
-	Count int
-	List  []model.Branch
+// Load : Try reading from the excel
+func Load(file string) []model.Branch {
+	allBranches := []model.Branch{}
+
+	logger.Infoln("Going to start reading file", file)
+	workBook, err := xlsx.OpenFile(file)
+	if err != nil {
+		logger.Debug(err.Error())
+		return allBranches
+	}
+
+	for sheetNumber, sheet := range workBook.Sheets {
+		logger.Infoln("Reading sheet", sheetNumber)
+		for _, row := range sheet.Rows {
+			sheetRow := model.Branch{}
+			populate(&sheetRow, row)
+			allBranches = append(allBranches, sheetRow)
+		}
+	}
+
+	return allBranches
 }
 
 func populate(b *model.Branch, row *xlsx.Row) {
@@ -40,30 +57,6 @@ func populate(b *model.Branch, row *xlsx.Row) {
 			logger.Error("Mismatcing colums found")
 		}
 	}
-}
-
-// Load : Try reading from the excel
-func Load(file string) Branches {
-	allBranches := Branches{}
-
-	logger.Infoln("Going to start reading file", file)
-	workBook, err := xlsx.OpenFile(file)
-	if err != nil {
-		logger.Debug(err.Error())
-		return allBranches
-	}
-
-	for sheetNumber, sheet := range workBook.Sheets {
-		logger.Infoln("Reading sheet", sheetNumber)
-		for _, row := range sheet.Rows {
-			sheetRow := model.Branch{}
-			populate(&sheetRow, row)
-			allBranches.List = append(allBranches.List, sheetRow)
-			allBranches.Count++
-		}
-	}
-
-	return allBranches
 }
 
 func formatString(text string) string {

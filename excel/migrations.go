@@ -24,10 +24,9 @@ func UpdateBanks() error {
 	}
 
 	branches := Load(diskFilePath)
-	logger.Infoln("Branches.Count", branches.Count)
 
 	database := db.Get()
-	for _, branch := range branches.List {
+	for _, branch := range branches {
 
 		if branch.Bank == "" {
 			logger.Infoln("branch.Bank seems empty, skipping")

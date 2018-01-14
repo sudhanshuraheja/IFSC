@@ -18,6 +18,6 @@ func Test_one(t *testing.T) {
 	logger.Infoln(dir)
 
 	allBranches := excel.Load("../data/sample_tiny.xlsx")
-	assert.Equal(t, allBranches.Count, 12)
-	assert.NotEmpty(t, allBranches.List[11].Bank)
+	assert.Equal(t, len(allBranches), 12)
+	assert.NotEmpty(t, allBranches[11].Bank)
 }
