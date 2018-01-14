@@ -70,11 +70,6 @@ func readLatestConfig() {
 
 }
 
-// Application : Exporting configuration
-func Application() *Config {
-	return config
-}
-
 // Name : Exporting Name
 func Name() string {
 	return config.name
