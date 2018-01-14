@@ -11,7 +11,7 @@ import (
 )
 
 // Start : start the cli wrapper
-func Start() *cli.App {
+func Init() *cli.App {
 	app := cli.NewApp()
 	app.Name = config.Name()
 	app.Version = config.Version()

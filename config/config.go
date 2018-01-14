@@ -24,8 +24,8 @@ type Config struct {
 
 var config *Config
 
-// Load config from file
-func Load() {
+// Init config from file
+func Init() {
 	viper.AutomaticEnv()
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("..")

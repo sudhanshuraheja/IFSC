@@ -11,8 +11,8 @@ import (
 )
 
 func Test_one(t *testing.T) {
-	config.Load()
-	logger.Setup()
+	config.Init()
+	logger.Init()
 
 	dir, _ := os.Getwd()
 	logger.Infoln(dir)

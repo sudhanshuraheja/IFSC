@@ -8,7 +8,7 @@ import (
 )
 
 func Test_ConfigValues(t *testing.T) {
-	config.Load()
+	config.Init()
 	assert.Equal(t, "ifsc", config.Name())
 	assert.Equal(t, "0.0.1", config.Version())
 	assert.Equal(t, "debug", config.LogLevel())

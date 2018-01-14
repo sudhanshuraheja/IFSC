@@ -11,8 +11,8 @@ import (
 
 var logger *logrus.Logger
 
-// Setup : setup the logger
-func Setup() {
+// Init : setup the logger
+func Init() {
 	level, err := logrus.ParseLevel(config.LogLevel())
 	if err != nil {
 		log.Fatalf(err.Error())

@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	config.Load()
-	logger.Setup()
+	config.Init()
+	logger.Init()
 	db.Init()
 	defer db.Close()
-	cli.Start()
+	cli.Init()
 }
