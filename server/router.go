@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/sudhanshuraheja/ifsc/datastore"
 	"github.com/sudhanshuraheja/ifsc/logger"
 	"github.com/sudhanshuraheja/ifsc/search"
 )
@@ -32,7 +31,11 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	query := vars["query"]
 
-	search := datastore.Search(query)
+	search, err := search.Find(query)
+	if err != nil {
+		logger.Error(err)
+	}
+
 	data, err := json.Marshal(search)
 	if err != nil {
 		logger.Error(err)

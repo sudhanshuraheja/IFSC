@@ -1,6 +1,8 @@
 package search
 
 import (
+	"net/url"
+
 	"github.com/sudhanshuraheja/ifsc/db"
 	"github.com/sudhanshuraheja/ifsc/logger"
 	"github.com/sudhanshuraheja/ifsc/model"
@@ -9,6 +11,13 @@ import (
 
 // Find : find list of items which match this query
 func Find(query string) ([]model.Branch, error) {
+	escapedQuery, err := url.QueryUnescape(query)
+	if err != nil {
+		logger.Debugln("Could not parse query", query)
+		return []model.Branch{}, err
+	}
+	logger.Debugln("Searching for", escapedQuery)
+
 	results := []model.Branch{}
 	key := utils.StemWord(query)
 
