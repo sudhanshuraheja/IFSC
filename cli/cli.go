@@ -41,6 +41,13 @@ func Init() *cli.App {
 			},
 		},
 		{
+			Name:  "download",
+			Usage: "downloads the latest excel from banks",
+			Action: func(c *cli.Context) error {
+				return excel.DownloadLatest()
+			},
+		},
+		{
 			Name:  "updateBanks",
 			Usage: "take the latest list of banks and update db",
 			Action: func(c *cli.Context) error {

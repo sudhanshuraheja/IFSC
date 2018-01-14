@@ -4,10 +4,25 @@ import (
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/sudhanshuraheja/ifsc/config"
+	"github.com/sudhanshuraheja/ifsc/logger"
 )
 
+// DownloadLatest fetches the latest file from the server
+func DownloadLatest() {
+	config.Init()
+	logger.Init()
+
+	downloadPath := "./data/latestExcel.xlsx"
+	err := download(config.LatestDataExcel(), downloadPath)
+	if err != nil {
+		logger.Fatalln("Could not downlaod file", config.LatestDataExcel(), "to", downloadPath)
+	}
+}
+
 // DownloadFile allows you to download the latest excel file
-func DownloadFile(url string, path string) error {
+func download(url string, path string) error {
 	// Create an empty file
 	out, err := os.Create(path)
 	if err != nil {
