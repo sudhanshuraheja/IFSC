@@ -1,4 +1,4 @@
-package datastore
+package datastore_test
 
 import (
 	"testing"
