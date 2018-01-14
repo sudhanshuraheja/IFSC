@@ -8,18 +8,18 @@ import (
 )
 
 // BuildIndex : build up the search index
-func BuildIndex() {
+func BuildIndex() error {
 	logger.Infoln("Got a request to rebuild the index again")
-	getBranches()
+	return getBranches()
 }
 
-func getBranches() {
+func getBranches() error {
 	db := db.Get()
 	// Fetch all records from the DB and populate the index
 	rows, err := db.Queryx("SELECT * FROM branches")
 	if err != nil {
 		logger.Debugln("Error in query", err)
-		return
+		return err
 	}
 	defer rows.Close()
 
@@ -42,8 +42,12 @@ func getBranches() {
 		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.State, 2))
 		keywords = utils.MergeMaps(keywords, addBankIndexKeywords(b.Contact, 2))
 
-		saveKeywords(b.DBId, keywords)
+		err := saveKeywords(b.DBId, keywords)
+		if err != nil {
+			logger.Fatalln("Saving keywords failed", err.Error())
+		}
 	}
+	return nil
 }
 
 func addBankIndexKeywords(value string, weight int) map[string]int {

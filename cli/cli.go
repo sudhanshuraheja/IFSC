@@ -6,11 +6,12 @@ import (
 	"github.com/sudhanshuraheja/ifsc/config"
 	"github.com/sudhanshuraheja/ifsc/db"
 	"github.com/sudhanshuraheja/ifsc/excel"
+	"github.com/sudhanshuraheja/ifsc/search"
 	"github.com/sudhanshuraheja/ifsc/server"
 	"github.com/urfave/cli"
 )
 
-// Start : start the cli wrapper
+// Init : start the cli wrapper
 func Init() *cli.App {
 	app := cli.NewApp()
 	app.Name = config.Name()
@@ -52,6 +53,13 @@ func Init() *cli.App {
 			Usage: "take the latest list of banks and add to the db",
 			Action: func(c *cli.Context) error {
 				return excel.AddBanks()
+			},
+		},
+		{
+			Name:  "addIndex",
+			Usage: "take banks from the db and add index",
+			Action: func(c *cli.Context) error {
+				return search.BuildIndex()
 			},
 		},
 	}
