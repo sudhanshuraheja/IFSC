@@ -48,10 +48,10 @@ func Init() *cli.App {
 			},
 		},
 		{
-			Name:  "updateBanks",
-			Usage: "take the latest list of banks and update db",
+			Name:  "addBanks",
+			Usage: "take the latest list of banks and add to the db",
 			Action: func(c *cli.Context) error {
-				return excel.UpdateBanks()
+				return excel.AddBanks()
 			},
 		},
 	}

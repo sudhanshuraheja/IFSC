@@ -1,51 +1,48 @@
 package excel
 
 import (
-	"fmt"
 	"strings"
-	"time"
 
-	"github.com/sudhanshuraheja/ifsc/config"
 	"github.com/sudhanshuraheja/ifsc/db"
 	"github.com/sudhanshuraheja/ifsc/logger"
+	"github.com/sudhanshuraheja/ifsc/model"
 )
 
-// UpdateBanks : fetch banks from the latest excel and upload to db
-func UpdateBanks() error {
-	logger.Infoln("Config", config.LatestDataExcel())
+// AddBanks : fetch banks from the latest excel and upload to db
+func AddBanks() error {
 
-	// diskFilePath := "./data/tmp_ifs_download_1514702975.xlsx"
-	diskFilePath := fmt.Sprintf("./data/tmp_ifs_download_%d.xlsx", time.Now().Unix())
-	logger.Infoln("Save to disk at", diskFilePath)
-
-	err := download(config.LatestDataExcel(), diskFilePath)
-	if err != nil {
-		logger.Fatal(err)
-	}
-
+	diskFilePath := "./data/latestExcel.xlsx"
 	branches := Load(diskFilePath)
 
-	database := db.Get()
 	for _, branch := range branches {
-
-		if branch.Bank == "" {
-			logger.Infoln("branch.Bank seems empty, skipping")
-			continue
-		}
-
-		if strings.ToLower(branch.Bank) == "bank" {
-			logger.Infoln(branch.Bank, "seems invalid, skipping")
-			continue
-		}
-
-		// Insert data into DB
-		_, err := database.Exec("INSERT INTO branches (bank, ifsc, micr, branch, address, city, district, state, contact) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", branch.Bank, branch.Ifsc, branch.Micr, branch.Branch, branch.Address, branch.City, branch.District, branch.State, branch.Contact)
+		err := addBank(branch)
 		if err != nil {
-			logger.Fatalln("Pushing to DB failed for", branch.Ifsc, "with error", err)
-			return err
+			logger.Fatalln("Could not add bank", branch.Bank, branch.Address)
 		}
 	}
 
-	logger.Info("Successfull saved everything to DB")
+	logger.Info("Successfully saved all banks to DB")
+	return nil
+}
+
+func addBank(branch model.Branch) error {
+	database := db.Get()
+
+	if branch.Bank == "" {
+		logger.Infoln("branch.Bank seems empty, skipping")
+		return nil
+	}
+
+	if strings.ToLower(branch.Bank) == "bank" {
+		logger.Infoln(branch.Bank, "seems invalid, skipping")
+		return nil
+	}
+
+	// Insert data into DB
+	_, err := database.Exec("INSERT INTO branches (bank, ifsc, micr, branch, address, city, district, state, contact) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", branch.Bank, branch.Ifsc, branch.Micr, branch.Branch, branch.Address, branch.City, branch.District, branch.State, branch.Contact)
+	if err != nil {
+		logger.Fatalln("Pushing to DB failed for", branch.Ifsc, "with error", err)
+		return err
+	}
 	return nil
 }
