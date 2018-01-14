@@ -4,7 +4,7 @@ all: build test
 ALL_PACKAGES=$(go list ./... | grep -v "vendor")
 UNIT_TEST_PACKAGES=$(go list ./... | grep -v "vendor" | grep -v "featuretest")
 
-APP_EXECUTABLE="out/ifsc"
+APP_EXECUTABLE="bin/ifsc"
 
 setup_mac:
 	brew install dep
@@ -22,7 +22,7 @@ update:
 	dep ensure
 
 compile:
-	mkdir -p out/
+	mkdir -p bin/
 	go build -o $(APP_EXECUTABLE)
 
 fmt:
