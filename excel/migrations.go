@@ -18,7 +18,7 @@ func UpdateBanks() error {
 	diskFilePath := fmt.Sprintf("./data/tmp_ifs_download_%d.xlsx", time.Now().Unix())
 	logger.Infoln("Save to disk at", diskFilePath)
 
-	err := DownloadFile(config.LatestDataExcel(), diskFilePath)
+	err := download(config.LatestDataExcel(), diskFilePath)
 	if err != nil {
 		logger.Fatal(err)
 	}

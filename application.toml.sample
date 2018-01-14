@@ -10,7 +10,7 @@ enableGzipCompression = true
 enableDelayMiddleware = false
 
 [excel]
-latestData = "file://./db/sample.xlsx"
+latestData = "http://localhost:3000/db/sample.xlsx"
 
 [database]
 name = "ifsc"

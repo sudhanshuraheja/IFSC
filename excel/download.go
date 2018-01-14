@@ -10,15 +10,16 @@ import (
 )
 
 // DownloadLatest fetches the latest file from the server
-func DownloadLatest() {
+func DownloadLatest() error {
 	config.Init()
 	logger.Init()
 
 	downloadPath := "./data/latestExcel.xlsx"
 	err := download(config.LatestDataExcel(), downloadPath)
 	if err != nil {
-		logger.Fatalln("Could not downlaod file", config.LatestDataExcel(), "to", downloadPath)
+		logger.Fatalln("Could not downlaod file", config.LatestDataExcel(), "to", downloadPath, "because of", err.Error())
 	}
+	return nil
 }
 
 // DownloadFile allows you to download the latest excel file
@@ -42,5 +43,6 @@ func download(url string, path string) error {
 	if err != nil {
 		return err
 	}
+	logger.Infoln("Successfully downloaded file", url, "to", path)
 	return nil
 }
