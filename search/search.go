@@ -29,6 +29,6 @@ func (i *Item) AddIndex() {
 // AddSubItem : Add a subItem from an external file
 func addSubItemIndex(value string, weight int) map[string]int {
 	words := utils.SplitWords(value)
-	frequency := wordFrequencyCounter(utils.StemWords(words), weight)
+	frequency := utils.WordFrequencyCounter(utils.StemWords(words), weight)
 	return frequency
 }
