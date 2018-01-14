@@ -2,9 +2,6 @@ package excel
 
 import (
 	"fmt"
-	"io"
-	"net/http"
-	"os"
 	"strings"
 	"time"
 
@@ -21,7 +18,7 @@ func UpdateBanks() error {
 	diskFilePath := fmt.Sprintf("./data/tmp_ifs_download_%d.xlsx", time.Now().Unix())
 	logger.Infoln("Save to disk at", diskFilePath)
 
-	err := downloadExcel(config.LatestDataExcel(), diskFilePath)
+	err := DownloadFile(config.LatestDataExcel(), diskFilePath)
 	if err != nil {
 		logger.Fatal(err)
 	}
@@ -51,28 +48,5 @@ func UpdateBanks() error {
 	}
 
 	logger.Info("Successfull saved everything to DB")
-	return nil
-}
-
-func downloadExcel(url string, path string) error {
-	// Create an empty file
-	out, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer out.Close()
-
-	// Download the file
-	resp, err := http.Get(url)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	// Write to file
-	_, err = io.Copy(out, resp.Body)
-	if err != nil {
-		return err
-	}
 	return nil
 }

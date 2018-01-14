@@ -9,6 +9,7 @@ import (
 	"github.com/urfave/negroni"
 
 	"github.com/sudhanshuraheja/ifsc/config"
+	"github.com/sudhanshuraheja/ifsc/logger"
 )
 
 // StartAPIServer : setup routes and start the server
@@ -28,12 +29,13 @@ func StartAPIServer() {
 	}
 
 	if config.EnableStaticFileServer() {
-		server.Use(negroni.NewStatic(http.Dir("public")))
+		server.Use(negroni.NewStatic(http.Dir("data")))
 	}
 
 	server.Use(Recover())
 	server.UseHandler(router)
 
 	serverURL := fmt.Sprintf(":%s", config.Port())
+	logger.Infoln("The server is now running at", serverURL)
 	http.ListenAndServe(serverURL, server)
 }
